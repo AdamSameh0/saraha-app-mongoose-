@@ -1,12 +1,13 @@
 import joi from "joi"
 
-export const signUpSchema = joi.object({
-    fullName: joi.string().min(6).max(50).required(),
-    email: joi.string().email().required(),
-    password: joi.string().min(6).max(30).pattern(/^[a-zA-Z0-9]{6,30}$/).required()
+
+export const getUserByLinkSchema = joi.object({
+  url: joi.string().pattern(/^http:\/\/localhost:3000\/[A-Za-z0-9_-]+$/).required()
 })
-export const logInSchema = joi.object({
-    email: joi.string().email().required(),
-    password: joi.string().min(6).max(30).required(),
-    providers: joi.string().required()
-})
+export const updateProfileSchema = joi.object({
+  firstName: joi.string().replace(/\s+/g, "").trim().pattern(/^[A-Za-z]+$/).min(3).max(15).optional(),
+  lastName: joi.string().replace(/\s+/g, "").trim().pattern(/^[A-Za-z]+$/).min(3).max(15).optional(),
+  gender : joi.string().trim().valid("male" , "female").optional(),
+  age : joi.number().min(10).optional(),
+  phone: joi.string().trim().pattern(/^[0-9]+$/).min(7).max(15).optional()
+});

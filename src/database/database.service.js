@@ -8,7 +8,7 @@ export let findOne = async ({
 }) => {
     let doc = modelName.findOne(filter)
     if (select.length) {
-        doc.select
+        doc.select(select)
     }
     if (options.populate) {
         doc.populate(options.populate)

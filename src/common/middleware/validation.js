@@ -8,6 +8,7 @@ export const validation = (schema) => {
         if (error) {
             throw BadRequestException({ message: "validation error", extra: error })
         }
+        req.body = value
         next()
     }
 }

@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { deleteMessageById, getAllMessages, getMessageById, sendfMessageSchema, sendingMessage } from "./index.js";
-import { auth, BadRequestException, SuccessResponse, UnauthorizedException, validation } from "../../common/index.js";
+import { auth, BadRequestException, extentions, multer_local, SuccessResponse, UnauthorizedException, validation } from "../../common/index.js";
 
 export const messagesRouter = Router()
 
 
-messagesRouter.post("/send-message/:id", validation(sendfMessageSchema), async (req, res) => {
+messagesRouter.post("/send-message/:id", multer_local({customPath : "messages" , maxSize : 3, allowedExtentions : extentions.image }).single("image"),validation(sendfMessageSchema), async (req, res) => {
    if (!req.params.id) {
       throw UnauthorizedException({ message: "no id sent" })
    }
-   let message = await sendingMessage(req.body, req.params.id)
+   let message = await sendingMessage(req.body, req.params.id , req.file)
    SuccessResponse({ res, message: "message sent successfully", data: message })
 })
 

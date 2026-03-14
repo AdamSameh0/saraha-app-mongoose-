@@ -1,16 +1,22 @@
+import { baseUrl } from "../../../config/env.service.js"
 import { BadRequestException, NotFoundException } from "../../common/index.js"
 import { findById, findOne, messagesModel, userModel } from "../../database/index.js"
 
 
 
-export const sendingMessage = async (data, id) => {
-  let { message, image } = data
+export const sendingMessage = async (data, id , file) => {
+  let { message } = data
   let exist = await findById({ modelName: userModel, id })
   if (exist) {
+    let image = ''
+    if(image){
+      image = `${baseUrl}/uploads/messages/${file.filename}`
+    }
     let addedMessage = await messagesModel.create({
       message,
       image,
-      receiverId: id
+      receiverId: id,
+      image
     })
     if (addedMessage) {
       return addedMessage

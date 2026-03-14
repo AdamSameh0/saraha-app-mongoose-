@@ -6,7 +6,7 @@ export const hashing = async (plainText) => {
   return hashed
 }
 
-export const comparing = async (palinText, hashedPassword) => {
-  let isMatched = await compare(palinText, hashedPassword)
+export const comparing = async (palinText, hashedtext) => {
+  let isMatched = await compare(palinText, hashedtext)
   return isMatched
 }

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { genderEnums, providerEnnums, roleEnum } from "../../common/index.js";
+import { genderEnums, providerEnnums, roleEnum } from "../../common/enums/enum.service.js";
 let userSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -22,8 +22,14 @@ let userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phone: String,
-    DOB: Date,
+    phone:{
+     type:String,
+     default : "no phone number attatched"
+    } ,
+    age:{
+        type:Number,
+        default:18
+    },
     gender: {
         type: String,
         enum: Object.values(genderEnums),
@@ -42,8 +48,30 @@ let userSchema = new mongoose.Schema({
     viewCount: {
         type: Number,
         default: 0
+    },
+    sharedProfileName:{
+        type:String,
+        required: true,
+        unique:true
+    }, 
+    image:{
+        type:String,
+        default: "uploads/default/default.jpg"
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
+    },
+    bannedFromLogIn:{
+    type:Number,
+    default:0
+    },
+    twoFa:{
+      type:Boolean,
+      default:false
     }
-})
+},
+    { timestamps: true })
 
 userSchema.virtual("fullName").set(function (value) {
     let [firstName, lastName] = value.split(' ')
